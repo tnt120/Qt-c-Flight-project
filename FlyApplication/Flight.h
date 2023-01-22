@@ -47,6 +47,6 @@ public:
     int getSeatsAvailable();
     void setSeatsAvailable(int SeatsAvailable);
 
-    //friend ostream& operator<<(ostream& lhs, const Flight&);
+    Flight& operator-=(int rhs);
 
 };

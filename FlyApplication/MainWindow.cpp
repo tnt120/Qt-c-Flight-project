@@ -72,7 +72,7 @@ MainWindow::~MainWindow()
 
     flights.clear();
 
-    // upewniÄ‡ siÄ™ czy na pewno dobrze to zrobie
+    // upewnic sie czy na pewno dobrze to zrobie
 }
 
 void MainWindow::searchFlights()
@@ -156,6 +156,26 @@ void MainWindow::readFromFile()
             flights[rdFlight->getID()] = rdFlight;
             qDebug() << "read";
 
+        }
+    }
+    else{
+        throw std::runtime_error("Open file error");
+    }
+
+
+    file.close();
+}
+
+void MainWindow::readFromFile(int rows){
+    std::ifstream file("flights.bin", ios::binary);
+
+    if(file.good()){
+        while(file.peek() != EOF && rows > 0){
+            Flight* rdFlight = new Flight;
+            rdFlight->readFromBinary(file);
+            flights[rdFlight->getID()] = rdFlight;
+            qDebug() << "read";
+            rows--;
         }
     }
     else{

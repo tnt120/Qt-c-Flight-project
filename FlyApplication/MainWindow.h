@@ -36,6 +36,8 @@ public:
 
     void readFromFile();
 
+    void readFromFile(int rows);
+
     void saveToFile();
 
     void feedback(bool isEdit);

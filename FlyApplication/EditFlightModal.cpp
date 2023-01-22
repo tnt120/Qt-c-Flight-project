@@ -57,7 +57,7 @@ EditFlightModal::EditFlightModal(Flight* flight) {
     vbox->addWidget(seatsAvailableInput);
 
     vbox->addWidget(okButton);
-    vbox->addStretch(1);
+
     this->setLayout(vbox);
 }
 

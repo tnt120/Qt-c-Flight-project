@@ -10,10 +10,11 @@
 #include <QLabel>
 #include <QCheckBox>
 #include <QPushButton>
+#include <QDialog>
 
 #include <Flight.h>
 
-class EditFlightModal : public QGroupBox
+class EditFlightModal : public QDialog
 {
     Q_OBJECT
 public:

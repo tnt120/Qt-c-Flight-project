@@ -64,7 +64,7 @@ AddFlightModal::AddFlightModal(std::function<void (QString, QString, QString, QS
     vbox->addWidget(seatsAvailableInput);
 
     vbox->addWidget(okButton);
-    vbox->addStretch(1);
+
     this->setLayout(vbox);
 }
 

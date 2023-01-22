@@ -10,8 +10,9 @@
 #include <QLabel>
 #include <QCheckBox>
 #include <QPushButton>
+#include <QDialog>
 
-class AddFlightModal : public QGroupBox
+class AddFlightModal : public QDialog
 {
     Q_OBJECT
 public:

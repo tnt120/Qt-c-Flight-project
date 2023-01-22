@@ -16,7 +16,7 @@ BuyFlightModal::BuyFlightModal(Flight* flight, std::map<QString, int>* tickets)
         connect(BuyButton, &QPushButton::clicked, [=](){
 
             qDebug() << "Buy bought ticket for plane: " + flight->getID();
-            flight->setSeatsAvailable(flight->getSeatsAvailable() - 1);
+            *flight -= 1;
 
             qDebug() << tickets->size();
 

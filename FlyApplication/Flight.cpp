@@ -135,18 +135,10 @@ int Flight::getSeatsAvailable(){
 void Flight::setSeatsAvailable(int SeatsAvailable){
     this->SeatsAvailabe = SeatsAvailable;
 }
-/*
-ostream& operator<<(ostream& lhs, const Flight& rhs){
 
-    lhs << "ID: " << rhs.ID.toStdString() << "\n"
-        << "Status: " << rhs.Status.toStdString() << "\n"
-        << "Departure Place: " << rhs.DeparturePlace.toStdString() << "\n"
-        << "Departure Time: " << rhs.DepartureTime << "\n"
-        << "Arrival Place: " << rhs.ArrivalPlace.toStdString() << "\n"
-        << "Arrival Time: " << rhs.ArrivalTime << "\n"
-        << "Seats Available" << rhs.SeatsAvailabe << endl;
+Flight& Flight::operator-=(int rhs){
 
-    return lhs;
+    SeatsAvailabe = SeatsAvailabe - rhs;
 
+    return *this;
 }
-*/
