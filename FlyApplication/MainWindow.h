@@ -12,6 +12,7 @@
 #include <EditRemoveModal.h>
 #include <BuyFlightModal.h>
 #include <WindowFlightModal.h>
+#include <ShowTicketsModal.h>
 
 
 QT_BEGIN_NAMESPACE
@@ -30,6 +31,8 @@ public:
     void searchFlights();
 
     void addFlight();
+
+    void showTickets();
 
     void readFromFile();
 

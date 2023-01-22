@@ -67,8 +67,15 @@
       </item>
      </layout>
     </item>
-    <item row="2" column="0">
+    <item row="3" column="0">
      <widget class="QListWidget" name="listWidget"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QPushButton" name="ShowTicketsButton">
+      <property name="text">
+       <string>Show your tickets</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

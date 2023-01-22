@@ -15,6 +15,7 @@ SOURCES += \
     EditFlightModal.cpp \
     EditRemoveModal.cpp \
     Flight.cpp \
+    ShowTicketsModal.cpp \
     WindowFlightModal.cpp \
     main.cpp \
     MainWindow.cpp
@@ -26,6 +27,7 @@ HEADERS += \
     EditRemoveModal.h \
     Flight.h \
     MainWindow.h \
+    ShowTicketsModal.h \
     WindowFlightModal.h
 
 FORMS += \

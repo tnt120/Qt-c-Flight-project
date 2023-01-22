@@ -14,7 +14,6 @@ MainWindow::MainWindow(bool isAdminMode, QWidget *parent)
         qDebug() << e.what();
     }
 
-
     //connect(ui->listWidget, SIGNAL(itemClicked()), this, SLOT(on_listWidget_itemClicked()));
 
     //connect(ui->listWidget, SIGNAL(itemDoubleClicked()), this, SLOT(on_listWidget_itemDoubleClicked()));
@@ -43,12 +42,18 @@ MainWindow::MainWindow(bool isAdminMode, QWidget *parent)
         searchFlights();
     });
 
+    QPushButton *ShowTicketsButton = ui->ShowTicketsButton;
     QPushButton *AddFlightButton = ui->AddFlightButton;
-    AddFlightButton->setVisible(false);
     if(isAdminMode){
-        AddFlightButton->setVisible(true);
+        ShowTicketsButton->setVisible(false);
         QPushButton::connect(AddFlightButton, &QPushButton::clicked, [=]() {
             addFlight();
+        });
+    }
+    else{
+        AddFlightButton->setVisible(false);
+        QPushButton::connect(ShowTicketsButton, &QPushButton::clicked, [=]() {
+            showTickets();
         });
     }
 
@@ -113,6 +118,14 @@ void MainWindow::searchFlights()
             flight->setTextAlignment(Qt::AlignCenter);
         }
     }
+}
+
+void MainWindow::showTickets(){
+
+    ShowTicketsModal *ticketWindow = new ShowTicketsModal(&tickets);
+    ticketWindow->setMinimumSize(200, 200);
+    ticketWindow->show();
+
 }
 
 void MainWindow::addFlight(){

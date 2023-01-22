@@ -1,6 +1,6 @@
 #pragma once
 
-#include <WindowFlightModal.h>>
+#include <WindowFlightModal.h>
 
 
 class BuyFlightModal : public WindowFlightModal
@@ -14,12 +14,16 @@ public:
 
     template<typename T>
     void updateTickets(QString ID, std::map<QString, T>* tickets){
-        for(auto & item : *tickets){
-            if(item.first == ID){
-                item.second++;
+
+        if(tickets->size() == 0){
+            tickets->operator[](ID) = 1;
+        }
+        else{
+            if(tickets->find(ID) == tickets->end()){
+                tickets->operator[](ID) = 1;
             }
             else{
-                this->tickets->operator[](ID) = 1;
+                tickets->operator[](ID)++;
             }
         }
     }
@@ -27,6 +31,4 @@ public:
 private:
 
     QPushButton *BuyButton;
-
-    std::map<QString, int>* tickets;
 };
