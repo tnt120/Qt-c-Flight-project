@@ -126,14 +126,14 @@ void MainWindow::addFlight(){
                                                    int SeatsAvailabe) {
 
         try {
-            if(flights.end() == flights.find(ID)){
+            if(flights.end() == flights.find(ID) && ID.split(" ").size() == 1){
                 Flight *flightBtn = new Flight(ID,Status, ArrivalPlace, DeparturePlace, DepartureDateDay, DepartureDateMonth,
                                                DepartureDateYear, DepartureTimeHour, DepartureTimeMinute, ArrivalTimeHour,
                                                ArrivalTimeMinute, SeatsAvailabe);
                 flights[ID] = flightBtn;
             }
             else{
-                throw runtime_error("Flight with this ID already exists.");
+                throw runtime_error("Flight with this ID already exists or wrong ID.");
             }
         } catch (std::exception &e) {
             qDebug() << e.what();
