@@ -11,8 +11,8 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    if(argc < 2){
-        throw std::exception("Invalid number of arguments");
+    if(argc != 2){
+        throw std::invalid_argument("Invalid number of arguments");
     }
 
     std::string param = argv[1];
@@ -22,9 +22,12 @@ int main(int argc, char *argv[])
     if(param == "admin"){
         isAdminMode = true;
     }
+    else if(param != "user"){
+        throw std::invalid_argument("Invalid argument");
+    }
 
     MainWindow w(isAdminMode);
-    w.show();
+    //w.show();
 
     return a.exec();
 }

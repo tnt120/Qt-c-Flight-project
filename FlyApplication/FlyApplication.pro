@@ -15,6 +15,7 @@ SOURCES += \
     EditFlightModal.cpp \
     EditRemoveModal.cpp \
     Flight.cpp \
+    LoginWindow.cpp \
     ShowTicketsModal.cpp \
     WindowFlightModal.cpp \
     main.cpp \
@@ -26,11 +27,13 @@ HEADERS += \
     EditFlightModal.h \
     EditRemoveModal.h \
     Flight.h \
+    LoginWindow.h \
     MainWindow.h \
     ShowTicketsModal.h \
     WindowFlightModal.h
 
 FORMS += \
+    LoginWindow.ui \
     MainWindow.ui
 
 # Default rules for deployment.

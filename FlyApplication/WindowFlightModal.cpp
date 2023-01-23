@@ -13,14 +13,28 @@ WindowFlightModal::WindowFlightModal(Flight* flight){
 
     this->itemID = new QListWidgetItem("ID: " + flight->getID());
     this->itemStatus = new QListWidgetItem("Status: " + flight->getStatus());
+    this->itemDepartureDate = new QListWidgetItem("Date: " + QString::number(flight->getDepartureDateDay()) + "."
+                                                  + QString::number(flight->getDepartureDateMonth()) + "."
+                                                  + QString::number(flight->getDepartureDateYear()));
     this->itemArrivalPlace = new QListWidgetItem("Arrival place: " + flight->getArrivalPlace());
     this->itemDeparturePlace = new QListWidgetItem("Departure place: " + flight->getDeparturePlace());
-    this->itemDepartureTime = new QListWidgetItem("Departure time: " + QString::number(flight->getDepartureTime()));
-    this->itemArrivalTime = new QListWidgetItem("Arrival time: " + QString::number(flight->getArrivalTime()));
+    if(flight->getDepartureTimeMinute() == 0){
+        this->itemDepartureTime = new QListWidgetItem("Departure time: " + QString::number(flight->getDepartureTimeHour()) + ":" + QString::number(flight->getDepartureTimeMinute()) + "0");
+    }
+    else{
+        this->itemDepartureTime = new QListWidgetItem("Departure time: " + QString::number(flight->getDepartureTimeHour()) + ":" + QString::number(flight->getDepartureTimeMinute()));
+    }
+    if(flight->getArrivalTimeMinute() == 0){
+        this->itemArrivalTime = new QListWidgetItem("Arrival time: " + QString::number(flight->getArrivalTimeHour()) + ":" + QString::number(flight->getArrivalTimeMinute()) + "0");
+    }
+    else{
+        this->itemArrivalTime = new QListWidgetItem("Arrival time: " + QString::number(flight->getArrivalTimeHour()) + ":" + QString::number(flight->getArrivalTimeMinute()));
+    }
     this->itemSeatsAvailabe = new QListWidgetItem("Seats Availabe: " + QString::number(flight->getSeatsAvailable()));
 
     FlightsInformation->addItem(itemID);
     FlightsInformation->addItem(itemStatus);
+    FlightsInformation->addItem(itemDepartureDate);
     FlightsInformation->addItem(itemArrivalPlace);
     FlightsInformation->addItem(itemDeparturePlace);
     FlightsInformation->addItem(itemDepartureTime);

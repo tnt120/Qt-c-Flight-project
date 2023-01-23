@@ -5,13 +5,24 @@ Flight::Flight(){
     Status = "";
     ArrivalPlace = "";
     DeparturePlace = "";
-    DepartureTime = 0;
-    ArrivalTime = 0;
+    DepartureDateDay = 0;
+    DepartureDateMonth = 0;
+    DepartureDateYear = 0;
+    DepartureTimeHour = 0;
+    DepartureTimeMinute = 0;
+    ArrivalTimeHour = 0;
+    ArrivalTimeMinute = 0;
     SeatsAvailabe = 0;
 }
 
-Flight::Flight(QString ID, QString Status, QString ArrivalPlace, QString DeparturePlace, int DepartureTime, int ArrivalTime, int SeatsAvailabe) :
-    QPushButton(ID) , ID(ID), Status(Status), ArrivalPlace(ArrivalPlace), DeparturePlace(DeparturePlace), DepartureTime(DepartureTime) , ArrivalTime(ArrivalTime), SeatsAvailabe(SeatsAvailabe) {
+Flight::Flight(QString ID, QString Status, QString ArrivalPlace, QString DeparturePlace,
+               int DepartureDateDay, int DepartureDateMonth, int DepartureDateYear,
+               int DepartureTimeHour, int DepartureTimeMinute, int ArrivalTimeHour,
+               int ArrivalTimeMinute, int SeatsAvailabe) :
+    ID(ID), Status(Status), ArrivalPlace(ArrivalPlace), DeparturePlace(DeparturePlace),
+    DepartureDateDay(DepartureDateDay) , DepartureDateMonth(DepartureDateMonth), DepartureDateYear(DepartureDateYear),
+    DepartureTimeHour(DepartureTimeHour), DepartureTimeMinute(DepartureTimeMinute), ArrivalTimeHour(ArrivalTimeHour),
+    ArrivalTimeMinute(ArrivalTimeMinute), SeatsAvailabe(SeatsAvailabe) {
 
 }
 
@@ -33,8 +44,13 @@ void Flight::saveToBinary(std::ofstream & file){
     file.write(reinterpret_cast<char*>(&sizeDeparturePlace), sizeof(sizeDeparturePlace));
     file.write(&DeparturePlace.toStdString()[0], sizeDeparturePlace);
 
-    file.write(reinterpret_cast<char*>(&DepartureTime), sizeof(DepartureTime));
-    file.write(reinterpret_cast<char*>(&ArrivalTime), sizeof(ArrivalTime));
+    file.write(reinterpret_cast<char*>(&DepartureDateDay), sizeof(DepartureDateDay));
+    file.write(reinterpret_cast<char*>(&DepartureDateMonth), sizeof(DepartureDateMonth));
+    file.write(reinterpret_cast<char*>(&DepartureDateYear), sizeof(DepartureDateYear));
+    file.write(reinterpret_cast<char*>(&DepartureTimeHour), sizeof(DepartureTimeHour));
+    file.write(reinterpret_cast<char*>(&DepartureTimeMinute), sizeof(DepartureTimeMinute));
+    file.write(reinterpret_cast<char*>(&ArrivalTimeHour), sizeof(ArrivalTimeHour));
+    file.write(reinterpret_cast<char*>(&ArrivalTimeMinute), sizeof(ArrivalTimeMinute));
     file.write(reinterpret_cast<char*>(&SeatsAvailabe), sizeof(SeatsAvailabe));
 
 }
@@ -67,8 +83,13 @@ void Flight::readFromBinary(std::ifstream & file){
     stringDeparturePlace.resize(sizeDeparturePlace);
     file.read(&stringDeparturePlace[0], sizeDeparturePlace);
 
-    file.read(reinterpret_cast<char*>(&DepartureTime), sizeof(DepartureTime));
-    file.read(reinterpret_cast<char*>(&ArrivalTime), sizeof(ArrivalTime));
+    file.read(reinterpret_cast<char*>(&DepartureDateDay), sizeof(DepartureDateDay));
+    file.read(reinterpret_cast<char*>(&DepartureDateMonth), sizeof(DepartureDateMonth));
+    file.read(reinterpret_cast<char*>(&DepartureDateYear), sizeof(DepartureDateYear));
+    file.read(reinterpret_cast<char*>(&DepartureTimeHour), sizeof(DepartureTimeHour));
+    file.read(reinterpret_cast<char*>(&DepartureTimeMinute), sizeof(DepartureTimeMinute));
+    file.read(reinterpret_cast<char*>(&ArrivalTimeHour), sizeof(ArrivalTimeHour));
+    file.read(reinterpret_cast<char*>(&ArrivalTimeMinute), sizeof(ArrivalTimeMinute));
     file.read(reinterpret_cast<char*>(&SeatsAvailabe), sizeof(SeatsAvailabe));
 
     ID = QString::fromStdString(stringID);
@@ -77,7 +98,9 @@ void Flight::readFromBinary(std::ifstream & file){
     DeparturePlace = QString::fromStdString(stringDeparturePlace);
 
     qDebug() << ID << ", " << Status << ", " << ArrivalPlace << ", " << DeparturePlace
-             << ", " << DepartureTime << ", " << ArrivalTime << ", " << SeatsAvailabe;
+             << ", " << DepartureDateDay << "." << DepartureDateMonth << "." << DepartureDateYear
+             << ", " << DepartureTimeHour << ":" << DepartureTimeMinute << ", " << ArrivalTimeHour
+             << ":" << ArrivalTimeMinute << ", " << SeatsAvailabe;
 }
 
 QString Flight::getID(){
@@ -112,20 +135,60 @@ void Flight::setDeparturePlace(QString DeparturePlace){
     this->DeparturePlace = DeparturePlace;
 }
 
-int Flight::getDepartureTime(){
-    return DepartureTime;
+int Flight::getDepartureDateDay(){
+    return DepartureDateDay;
 }
 
-void Flight::setDepartureTime(int DepartureTime){
-    this->DepartureTime = DepartureTime;
+void Flight::setDepartureDateDay(int DepartureDateDay){
+    this->DepartureDateDay = DepartureDateDay;
 }
 
-int Flight::getArrivalTime(){
-    return ArrivalTime;
+int Flight::getDepartureDateMonth(){
+    return DepartureDateMonth;
 }
 
-void Flight::setArrivalTime(int ArrivalTime){
-    this->ArrivalTime = ArrivalTime;
+void Flight::setDepartureDateMonth(int DepartureDateMonth){
+    this->DepartureDateMonth = DepartureDateMonth;
+}
+
+int Flight::getDepartureDateYear(){
+    return DepartureDateYear;
+}
+
+void Flight::setDepartureDateYear(int DepartureDateYear){
+    this->DepartureDateYear = DepartureDateYear;
+}
+
+int Flight::getDepartureTimeHour(){
+    return DepartureTimeHour;
+}
+
+void Flight::setDepartureTimeHour(int DepartureTimeHour){
+    this->DepartureTimeHour = DepartureTimeHour;
+}
+
+int Flight::getDepartureTimeMinute(){
+    return DepartureTimeMinute;
+}
+
+void Flight::setDepartureTimeMinute(int DepartureTimeMinute){
+    this->DepartureTimeMinute = DepartureTimeMinute;
+}
+
+int Flight::getArrivalTimeHour(){
+    return ArrivalTimeHour;
+}
+
+void Flight::setArrivalTimeHour(int ArrivalTimeHour){
+    this->ArrivalTimeHour = ArrivalTimeHour;
+}
+
+int Flight::getArrivalTimeMinute(){
+    return ArrivalTimeMinute;
+}
+
+void Flight::setArrivalTimeMinute(int ArrivalTimeMinute){
+    this->ArrivalTimeMinute = ArrivalTimeMinute;
 }
 
 int Flight::getSeatsAvailable(){
@@ -139,6 +202,12 @@ void Flight::setSeatsAvailable(int SeatsAvailable){
 Flight& Flight::operator-=(int rhs){
 
     SeatsAvailabe = SeatsAvailabe - rhs;
+
+    return *this;
+}
+
+Flight& Flight::operator+=(int rhs){
+    SeatsAvailabe = SeatsAvailabe + rhs;
 
     return *this;
 }

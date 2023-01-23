@@ -1,6 +1,6 @@
 #include <AddFlightModal.h>
 
-AddFlightModal::AddFlightModal(std::function<void (QString, QString, QString, QString, int, int, int)> onOkPress) {
+AddFlightModal::AddFlightModal(std::function<void (QString, QString, QString, QString, int, int, int, int, int, int, int, int)> onOkPress) {
 
     this->vbox = new QVBoxLayout();
 
@@ -10,20 +10,26 @@ AddFlightModal::AddFlightModal(std::function<void (QString, QString, QString, QS
     this->statusLabel = new QLabel("Insert fly status");
     this->statusInput = new QLineEdit();
 
+    this->departureDateLabel = new QLabel("Insert fly date");
+    this->departureDateInput = new QDateEdit(QDate(2023, 1, 23));
+
     this->departurePlaceLabel = new QLabel("Insert fly departure place");
     this->departurePlaceInput = new QLineEdit();
 
     this->departureTimeLabel = new QLabel("Insert fly departure time");
-    this->departureTimeInput = new QLineEdit();
+    this->departureTimeInput = new QTimeEdit();
+
 
     this->arrivalPlaceLabel = new QLabel("Insert fly arrival place");
     this->arrivalPlaceInput = new QLineEdit();
 
     this->arrivalTimeLabel = new QLabel("Insert fly arrival time");
-    this->arrivalTimeInput = new QLineEdit();
+    this->arrivalTimeInput = new QTimeEdit();
+
 
     this->seatsAvailableLabel = new QLabel("Insert fly seats available");
-    this->seatsAvailableInput = new QLineEdit();
+    this->seatsAvailableInput = new QSpinBox();
+    this->seatsAvailableInput->setRange(0, 200);
 
     QPushButton* okButton = new QPushButton("OK");
 
@@ -34,8 +40,13 @@ AddFlightModal::AddFlightModal(std::function<void (QString, QString, QString, QS
             this->statusInput->text(),
             this->arrivalPlaceInput->text(),
             this->departurePlaceInput->text(),
-            this->departureTimeInput->text().toInt(),
-            this->arrivalTimeInput->text().toInt(),
+            this->departureDateInput->date().day(),
+            this->departureDateInput->date().month(),
+            this->departureDateInput->date().year(),
+            this->departureTimeInput->time().hour(),
+            this->departureTimeInput->time().minute(),
+            this->arrivalTimeInput->time().hour(),
+            this->arrivalTimeInput->time().minute(),
             this->seatsAvailableInput->text().toInt()
         );
         this->close();
@@ -47,6 +58,9 @@ AddFlightModal::AddFlightModal(std::function<void (QString, QString, QString, QS
 
     vbox->addWidget(statusLabel);
     vbox->addWidget(statusInput);
+
+    vbox->addWidget(departureDateLabel);
+    vbox->addWidget(departureDateInput);
 
     vbox->addWidget(departurePlaceLabel);
     vbox->addWidget(departurePlaceInput);
@@ -76,6 +90,9 @@ AddFlightModal::~AddFlightModal() {
 
     delete this->statusLabel;
     delete this->statusInput;
+
+    delete this->departureDateLabel;
+    delete this->departureDateInput;
 
     delete this->departurePlaceLabel;
     delete this->departurePlaceInput;

@@ -8,33 +8,16 @@ MainWindow::MainWindow(bool isAdminMode, QWidget *parent)
 {
     ui->setupUi(this);
 
+    Login = new LoginWindow(isAdminMode);
+    Login->show();
+
+    connect(Login, &LoginWindow::login, this, &MainWindow::loginSuccess);
+
     try {
         readFromFile();
     } catch (std::exception &e) {
         qDebug() << e.what();
     }
-
-    //connect(ui->listWidget, SIGNAL(itemClicked()), this, SLOT(on_listWidget_itemClicked()));
-
-    //connect(ui->listWidget, SIGNAL(itemDoubleClicked()), this, SLOT(on_listWidget_itemDoubleClicked()));
-    ////////////////////////////////////////////// TEST START //////////////////////////////////////////
-/*
-    Flight *fl1 = new Flight("LH8082", "Boarding", "Krakow", "Warszawa", 17, 18, 2);
-
-
-    Flight *fl2 = new Flight("FR9021", "Delayed", "Krakow", "Barcelona", 8, 11, 25);
-
-
-    Flight *fl3 = new Flight("LH9092", "Boarding", "Barcelona", "Krakow", 20, 23, 92);
-
-
-
-
-    flights[QString("LH8082")] = fl1;
-    flights[QString("FR9021")] = fl2;
-    flights[QString("LH9092")] = fl3;
-*/
-    ////////////////////////////////////////////// TEST KONIEC //////////////////////////////////////////
 
     QPushButton *SearchButton = ui->SearchButton;
 
@@ -70,6 +53,8 @@ MainWindow::~MainWindow()
         delete item.second;
     }
 
+    delete Login;
+
     flights.clear();
 
     // upewnic sie czy na pewno dobrze to zrobie
@@ -79,32 +64,30 @@ void MainWindow::searchFlights()
 {
     QLineEdit *inputDeparture = ui->inputDepature;
     QLineEdit *inputArrival = ui->inputArrival;
-    QCheckBox *checkBoxArrival = ui->checkBoxArrival;
-    QCheckBox *checBoxDeparture = ui->checkBoxDeparture;
 
     ui->listWidget->clear();
 
-    if(checkBoxArrival->isChecked() && checBoxDeparture->isChecked()){
+    if(!inputDeparture->text().isEmpty() && !inputArrival->text().isEmpty()){
         for(auto & item : flights){
-            if(item.second->getDeparturePlace() == inputDeparture->text() && item.second->getArrivalPlace() == inputArrival->text()){
+            if(item.second->getDeparturePlace().toUpper() == inputDeparture->text().toUpper() && item.second->getArrivalPlace().toUpper() == inputArrival->text().toUpper()){
                 QListWidgetItem *flight = new QListWidgetItem(item.first);
                 ui->listWidget->addItem(flight);
                 flight->setTextAlignment(Qt::AlignCenter);
             }
         }
     }
-    else if(checBoxDeparture->isChecked()){
+    else if(!inputDeparture->text().isEmpty()){
         for(auto & item : flights){
-            if(item.second->getDeparturePlace() == inputDeparture->text()){
+            if(item.second->getDeparturePlace().toUpper() == inputDeparture->text().toUpper()){
                 QListWidgetItem *flight = new QListWidgetItem(item.first);
                 ui->listWidget->addItem(flight);
                 flight->setTextAlignment(Qt::AlignCenter);
             }
         }
     }
-    else if(checkBoxArrival->isChecked()){
+    else if(!inputArrival->text().isEmpty()){
         for(auto & item : flights){
-            if(item.second->getArrivalPlace() == inputArrival->text()){
+            if(item.second->getArrivalPlace().toUpper() == inputArrival->text().toUpper()){
                 QListWidgetItem *flight = new QListWidgetItem(item.first);
                 ui->listWidget->addItem(flight);
                 flight->setTextAlignment(Qt::AlignCenter);
@@ -122,7 +105,7 @@ void MainWindow::searchFlights()
 
 void MainWindow::showTickets(){
 
-    ShowTicketsModal *ticketWindow = new ShowTicketsModal(&tickets);
+    ShowTicketsModal *ticketWindow = new ShowTicketsModal(&flights, &tickets);
     ticketWindow->setMinimumSize(200, 200);
     ticketWindow->show();
 
@@ -133,13 +116,28 @@ void MainWindow::addFlight(){
                                                    QString Status,
                                                    QString ArrivalPlace,
                                                    QString DeparturePlace,
-                                                   int DepartureTime,
-                                                   int ArrivalTime,
-                                                   int SeatsAvailable) {
+                                                   int DepartureDateDay,
+                                                   int DepartureDateMonth,
+                                                   int DepartureDateYear,
+                                                   int DepartureTimeHour,
+                                                   int DepartureTimeMinute,
+                                                   int ArrivalTimeHour,
+                                                   int ArrivalTimeMinute,
+                                                   int SeatsAvailabe) {
 
-        Flight *flightBtn = new Flight(ID, Status, ArrivalPlace, DeparturePlace, DepartureTime, ArrivalTime, SeatsAvailable);
-
-        flights[ID] = flightBtn;
+        try {
+            if(flights.end() == flights.find(ID)){
+                Flight *flightBtn = new Flight(ID,Status, ArrivalPlace, DeparturePlace, DepartureDateDay, DepartureDateMonth,
+                                               DepartureDateYear, DepartureTimeHour, DepartureTimeMinute, ArrivalTimeHour,
+                                               ArrivalTimeMinute, SeatsAvailabe);
+                flights[ID] = flightBtn;
+            }
+            else{
+                throw runtime_error("Flight with this ID already exists.");
+            }
+        } catch (std::exception &e) {
+            qDebug() << e.what();
+        }
 
     });
     addWindow->show();
@@ -209,8 +207,10 @@ void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)
 {
     QString ID = item->text();
 
-    qDebug() << flights[ID]->getID() << ", " << flights[ID]->getStatus() << ", " << flights[ID]->getDeparturePlace() << ", " << flights[ID]->getDepartureTime()
-             << ", " << flights[ID]->getArrivalPlace() << ", " << flights[ID]->getArrivalTime() << ", " << flights[ID]->getSeatsAvailable();
+    qDebug() << ID << ", " << flights[ID]->getStatus() << ", " << flights[ID]->getArrivalPlace() << ", " << flights[ID]->getDeparturePlace()
+            << ", " << flights[ID]->getDepartureDateDay() << "." << flights[ID]->getDepartureDateMonth() << "." << flights[ID]->getDepartureDateYear()
+            << ", " << flights[ID]->getDepartureTimeHour() << ":" << flights[ID]->getDepartureTimeMinute() << ", " << flights[ID]->getArrivalTimeHour()
+            << ":" << flights[ID]->getArrivalTimeMinute() << ", " << flights[ID]->getSeatsAvailable();
 }
 
 
@@ -231,6 +231,12 @@ void MainWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
         buyWindow->show();
 
     }
+}
+
+void MainWindow::loginSuccess(){
+    Login->close();
+    qDebug() << "zalogowano";
+    show();
 }
 
 void MainWindow::feedback(bool isEdit){
